@@ -94,6 +94,40 @@ var touch = touch || {};
         }
     };
 
+
+
+    var pos = {
+        start: null,
+        move: null,
+        end: null
+    };
+    var startTime = 0;
+    // var fingers = 0;
+    var startEvent = null;
+    var moveEvent = null;
+    var endEvent = null;
+    var startSwiping = false;
+    var startPinch = false;
+    var startDrag = false;
+
+    var __offset = {};
+    var __touchStart = false;
+    var __holdTimer = null;
+    var __tapped = false;
+    // var __lastTapEndTime = null;
+    var __tapTimer = null;
+
+    var __scale_last_rate = 1;
+    var __rotation_single_finger = false;
+    var __rotation_single_start = []; //元素坐标中心位置
+    var __initial_angle = 0;
+    var __rotation = 0;
+
+    var __prev_tapped_end_time = 0;
+    var __prev_tapped_pos = null;
+
+
+
     /** 底层事件绑定/代理支持  */
     var proxyid = 0;
     var proxies = [];
@@ -418,7 +452,9 @@ var touch = touch || {};
             right: agl >= -45 && agl <= 45
         };
         for (var key in directions) {
-            if (directions[key]) return key;
+            if (directions[key]) {
+                return key;
+            }
         }
         return null;
     }
@@ -446,10 +482,10 @@ var touch = touch || {};
         __rotation_single_finger = false;
     }
 
-    function isTouchStart(ev) {
-        // ev.preventDefault();
-        return (ev.type === 'touchstart' || ev.type === 'mousedown');
-    }
+    // function isTouchStart(ev) {
+    //     // ev.preventDefault();
+    //     return (ev.type === 'touchstart' || ev.type === 'mousedown');
+    // }
     function isTouchMove(ev) {
         // ev.preventDefault();
         return (ev.type === 'touchmove' || ev.type === 'mousemove');
@@ -458,35 +494,7 @@ var touch = touch || {};
         return (ev.type === 'touchend' || ev.type === 'mouseup' || ev.type === 'touchcancel');
     }
 
-    var pos = {
-        start: null,
-        move: null,
-        end: null
-    };
-    var startTime = 0;
-    var fingers = 0;
-    var startEvent = null;
-    var moveEvent = null;
-    var endEvent = null;
-    var startSwiping = false;
-    var startPinch = false;
-    var startDrag = false;
-
-    var __offset = {};
-    var __touchStart = false;
-    var __holdTimer = null;
-    var __tapped = false;
-    var __lastTapEndTime = null;
-    var __tapTimer = null;
-
-    var __scale_last_rate = 1;
-    var __rotation_single_finger = false;
-    var __rotation_single_start = []; //元素坐标中心位置
-    var __initial_angle = 0;
-    var __rotation = 0;
-
-    var __prev_tapped_end_time = 0;
-    var __prev_tapped_pos = null;
+    
 
     var gestures = {
         _getAngleDiff: function(currentPos) {
@@ -507,9 +515,13 @@ var touch = touch || {};
             var el = ev.target;
             if (config.pinch) {
                 //touchend进入此时的getFinger(ev) < 2
-                if (!__touchStart) return;
+                if (!__touchStart) {
+                    return;
+                }
                 if (getFingers(ev) < 2) {
-                    if (!isTouchEnd(ev)) return;
+                    if (!isTouchEnd(ev)) {
+                        return;
+                    }
                 }
                 var scale = calScale(pos.start, pos.move);
                 var rotation = this._getAngleDiff(pos.move);
@@ -566,7 +578,9 @@ var touch = touch || {};
         rotateSingleFinger: function(ev) {
             var el = ev.target;
             if (__rotation_single_finger && getFingers(ev) < 2) {
-                if (!pos.move) return;
+                if (!pos.move) {
+                    return;
+                }
                 if (__rotation_single_start.length < 2) {
                     var docOff = getXYByElement(el);
 
@@ -703,9 +717,14 @@ var touch = touch || {};
 
                 clearTimeout(__holdTimer); //去除hold事件
                 var isDoubleTap = (function() {
-                    if (__prev_tapped_pos && config.doubleTap && (startTime - __prev_tapped_end_time) < config.maxDoubleTapInterval) {
+                    if (__prev_tapped_pos && 
+                        config.doubleTap && 
+                        (startTime - __prev_tapped_end_time) < config.maxDoubleTapInterval) 
+                    {
                         var doubleDis = getDistance(__prev_tapped_pos, pos.start[0]);
-                        if (doubleDis < 16) return true;
+                        if (doubleDis < 16) {
+                            return true;
+                        }
                     }
                     return false;
                 })();
@@ -720,9 +739,13 @@ var touch = touch || {};
                     return;
                 }
 
-                if (config.tapMaxDistance < distance) return;
+                if (config.tapMaxDistance < distance) {
+                    return;
+                }
 
-                if (config.holdTime > touchTime && getFingers(ev) <= 1) {
+                if (config.holdTime > touchTime && 
+                    getFingers(ev) <= 1) 
+                {
                     //clearTimeout在ios上有时不work（alert引起的）， 先用__tapped顶一下
                     __tapped = true;
                     __prev_tapped_end_time = now;
@@ -744,9 +767,13 @@ var touch = touch || {};
                 clearTimeout(__holdTimer);
 
                 __holdTimer = setTimeout(function() {
-                    if (!pos.start) return;
+                    if (!pos.start) {
+                        return;
+                    }
                     var distance = getDistance(pos.start[0], pos.move ? pos.move[0] : pos.start[0]);
-                    if (config.tapMaxDistance < distance) return;
+                    if (config.tapMaxDistance < distance) {
+                        return;
+                    }
 
                     if (!__tapped) {
                         _trigger(el, "hold", {
@@ -793,7 +820,9 @@ var touch = touch || {};
             break;
         case 'touchmove':
         case 'mousemove':
-            if (!__touchStart || !pos.start) return;
+            if (!__touchStart || !pos.start) {
+                return;
+            }
             pos.move = getPosOfEvent(ev);
             if (getFingers(ev) >= 2) {
                 gestures.pinch(ev);
@@ -807,7 +836,9 @@ var touch = touch || {};
         case 'touchcancel':
         case 'mouseup':
         case 'mouseout':
-            if (!__touchStart) return;
+            if (!__touchStart) {
+                return;
+            }
             endEvent = ev;
 
             if (startPinch) {
@@ -862,7 +893,7 @@ var touch = touch || {};
         }
         
         function evtMapDelegate( evt ){
-             if (!_hasTouch) {
+            if (!_hasTouch) {
                 evt = utils.getPCevts(evt);
             }
             els.forEach(function(el) {
@@ -874,7 +905,7 @@ var touch = touch || {};
             evtMap = args[1];
             sel = args[2];
             for (var evt1 in evtMap) {
-               evtMapDelegate(evt1);
+                evtMapDelegate(evt1);
             }
             return;
         }
@@ -1028,4 +1059,5 @@ var touch = touch || {};
 
 })(document, touch);
 
-module.exports = touch;
+// module.exports = touch;
+export default touch;
