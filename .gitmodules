@@ -1,0 +1,3 @@
+[submodule "touchjs"]
+	path = touchjs
+	url = git@github.com:sharonlx/touchjs.git

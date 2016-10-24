@@ -1,0 +1,41 @@
+{
+  "name": "vue-touchjs",
+  "version": "0.0.2",
+  "main": "src/index.js",
+  "author": "ixuan.lee@gmail.com",
+  "files": [
+    "src/index.js"
+  ],
+  "description": "Touch.js based touch events plugin for Vue.js",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sharonlx/vue-touch.git"
+  },
+  "bugs": {
+    "url": "https://github.com/sharonlx/vue-touch/issues"
+  },
+  "devDependencies": {
+    "uglify-js": "^2.6.2",
+    "vue": "^1.0.16",
+    "webpack": "^1.12.12"
+  },
+  "scripts": {
+    "build": "webpack src/index.js dist/index.js",
+    "dev": "webpack --watch example/example.js example/example.build.js"
+  },
+  "homepage": "https://github.com/sharonlx/vue-touch#readme",
+  "directories": {
+    "example": "example"
+  },
+  "dependencies": {
+    "uglify-js": "^2.7.3",
+    "vue": "^1.0.28",
+    "webpack": "^1.13.2"
+  },
+  "keywords": [
+    "vue touch gesture",
+    "vue",
+    "touch"
+  ]
+}
