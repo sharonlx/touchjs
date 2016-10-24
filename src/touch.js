@@ -57,13 +57,13 @@ var touch = touch || {};
         },
         getSelector: function(el) {
             if (el.id) {
-                return "#" + el.id;
+                return '#' + el.id;
             }
             if (el.className) {
                 var cns = el.className.split(/\s+/);
-                return "." + cns.join(".");
+                return '.' + cns.join('.');
             } else if(el === document){
-                return "body";
+                return 'body';
             }else{
                 return el.tagName.toLowerCase();
             }
@@ -78,10 +78,10 @@ var touch = touch || {};
             return PCevts[evt] || evt;
         },
         forceReflow: function() {
-            var domTreeOpDiv = document.getElementById("domTreeOp");
+            var domTreeOpDiv = document.getElementById('domTreeOp');
             if (!domTreeOpDiv) {
-                domTreeOpDiv = document.createElement("div");
-                domTreeOpDiv.id = "domTreeOp";
+                domTreeOpDiv = document.createElement('div');
+                domTreeOpDiv.id = 'domTreeOp';
                 document.body.appendChild(domTreeOpDiv);
             }
             var parentNode = domTreeOpDiv.parentNode;
@@ -147,7 +147,7 @@ var touch = touch || {};
                 el.dispatchEvent(e);
             }
         } else {
-            e = document.createEvent("CustomEvent");
+            e = document.createEvent('CustomEvent');
             e.initCustomEvent(evt, true, true, detail);
             if (el) {
                 el.dispatchEvent(e);
@@ -182,7 +182,7 @@ var touch = touch || {};
                 }
             }
             var returnValue = handler.call(e.target, e);
-            if(typeof returnValue !== "undefined" && !returnValue){
+            if(typeof returnValue !== 'undefined' && !returnValue){
                 e.stopPropagation();
                 e.preventDefault();
             }
@@ -242,9 +242,9 @@ var touch = touch || {};
                     e[p] = e.detail[p];
                 }
             }
-            var integrateSelector = utils.getSelector(el) + " " + sel;
+            var integrateSelector = utils.getSelector(el) + ' ' + sel;
             var match = utils.matchSelector(e.target, integrateSelector);
-            var ischild = utils.matchSelector(e.target, integrateSelector + " " + e.target.nodeName);
+            var ischild = utils.matchSelector(e.target, integrateSelector + ' ' + e.target.nodeName);
             if (!match && ischild) {
                 if (os.ios7) {
                     utils.forceReflow();
@@ -254,7 +254,7 @@ var touch = touch || {};
                     target = target.parentNode;
                 }
                 returnValue = handler.call(e.target, e);
-                if(typeof returnValue !== "undefined" && !returnValue){
+                if(typeof returnValue !== 'undefined' && !returnValue){
                     e.stopPropagation();
                     e.preventDefault();
                 }
@@ -264,7 +264,7 @@ var touch = touch || {};
                 }
                 if (match || ischild) {
                     returnValue = handler.call(e.target, e);
-                    if(typeof returnValue !== "undefined" && !returnValue){
+                    if(typeof returnValue !== 'undefined' && !returnValue){
                         e.stopPropagation();
                         e.preventDefault();
                     }
@@ -535,13 +535,13 @@ var touch = touch || {};
                 };
                 if (!startPinch) {
                     startPinch = true;
-                    eventObj.fingerStatus = "start";
+                    eventObj.fingerStatus = 'start';
                     _trigger(el, smrEventList.PINCH_START, eventObj);
                 } else if (isTouchMove(ev)) {
-                    eventObj.fingerStatus = "move";
+                    eventObj.fingerStatus = 'move';
                     _trigger(el, smrEventList.PINCH, eventObj);
                 } else if (isTouchEnd(ev)) {
-                    eventObj.fingerStatus = "end";
+                    eventObj.fingerStatus = 'end';
                     _trigger(el, smrEventList.PINCH_END, eventObj);
                     reset();
                 }
@@ -602,9 +602,9 @@ var touch = touch || {};
                 };
 
                 if (isTouchMove(ev)) {
-                    eventObj.fingerStatus = "move";
+                    eventObj.fingerStatus = 'move';
                 } else if (isTouchEnd(ev) || ev.type === 'mouseout') {
-                    eventObj.fingerStatus = "end";
+                    eventObj.fingerStatus = 'end';
                     _trigger(el, smrEventList.PINCH_END, eventObj);
                     reset();
                 }
@@ -776,7 +776,7 @@ var touch = touch || {};
                     }
 
                     if (!__tapped) {
-                        _trigger(el, "hold", {
+                        _trigger(el, 'hold', {
                             type: 'hold',
                             originEvent: ev,
                             fingersCount: getFingers(ev),
@@ -865,21 +865,21 @@ var touch = touch || {};
     /**
     开发者接口
     usage:
-        touch.on("#test", "tap swipeleft swiperight", handler);
-        touch.trigger("#test", "tap");
-        touch.off("#test", "tap swipeleft swiperight", handler);
+        touch.on('#test', 'tap swipeleft swiperight', handler);
+        touch.trigger('#test', 'tap');
+        touch.off('#test', 'tap swipeleft swiperight', handler);
      */
     var _on = function() {
 
         var evts, handler, evtMap, sel, args = arguments;
         if (args.length < 2 || args > 4) {
-            return console.error("unexpected arguments!");
+            return console.error('unexpected arguments!');
         }
         var els = utils.getType(args[0]) === 'string' ? doc.querySelectorAll(args[0]) : args[0];
         els = els.length ? Array.prototype.slice.call(els) : [els];
         //事件绑定
         if (args.length === 3 && utils.getType(args[1]) === 'string') {
-            evts = args[1].split(" ");
+            evts = args[1].split(' ');
             handler = args[2];
             evts.forEach(function(evt) {
                 if (!_hasTouch) {
@@ -929,8 +929,8 @@ var touch = touch || {};
         }
 
         //兼容factor config
-        if (args.length === 4 && utils.getType(args[2]) === "object") {
-            evts = args[1].split(" ");
+        if (args.length === 4 && utils.getType(args[2]) === 'object') {
+            evts = args[1].split(' ');
             handler = args[3];
             evts.forEach(function(evt) {
                 if (!_hasTouch) {
@@ -946,7 +946,7 @@ var touch = touch || {};
         //事件代理
         if (args.length === 4) {
             var el = els[0];
-            evts = args[1].split(" ");
+            evts = args[1].split(' ');
             sel = args[2];
             handler = args[3];
             evts.forEach(function(evt) {
@@ -963,14 +963,14 @@ var touch = touch || {};
         var evts, handler;
         var args = arguments;
         if (args.length < 1 || args.length > 4) {
-            return console.error("unexpected arguments!");
+            return console.error('unexpected arguments!');
         }
         var els = utils.getType(args[0]) === 'string' ? doc.querySelectorAll(args[0]) : args[0];
         els = els.length ? Array.prototype.slice.call(els) : [els];
 
         if (args.length === 1 || args.length === 2) {
             els.forEach(function(el) {
-                evts = args[1] ? args[1].split(" ") : Object.keys(el.listeners);
+                evts = args[1] ? args[1].split(' ') : Object.keys(el.listeners);
                 if (evts.length) {
                     evts.forEach(function(evt) {
                         if (!_hasTouch) {
@@ -987,7 +987,7 @@ var touch = touch || {};
         if (args.length === 3 && utils.getType(args[2]) === 'function') {
             handler = args[2];
             els.forEach(function(el) {
-                evts = args[1].split(" ");
+                evts = args[1].split(' ');
                 evts.forEach(function(evt) {
                     if (!_hasTouch) {
                         evt = utils.getPCevts(evt);
@@ -1001,7 +1001,7 @@ var touch = touch || {};
         if (args.length === 3 && utils.getType(args[2]) === 'string') {
             var sel = args[2];
             els.forEach(function(el) {
-                evts = args[1].split(" ");
+                evts = args[1].split(' ');
                 evts.forEach(function(evt) {
                     if (!_hasTouch) {
                         evt = utils.getPCevts(evt);
@@ -1015,7 +1015,7 @@ var touch = touch || {};
         if (args.length === 4) {
             handler = args[3];
             els.forEach(function(el) {
-                evts = args[1].split(" ");
+                evts = args[1].split(' ');
                 evts.forEach(function(evt) {
                     if (!_hasTouch) {
                         evt = utils.getPCevts(evt);
@@ -1059,5 +1059,5 @@ var touch = touch || {};
 
 })(document, touch);
 
-// module.exports = touch;
-export default touch;
+module.exports = touch;
+// export default touch;

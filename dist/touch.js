@@ -1,2 +1,1063 @@
-/*! js touchjs 2016-10-21 00:18:04 */
-"use strict";Object.defineProperty(exports,"__esModule",{value:!0});var touch=touch||{};!function(a,b){function c(a){if(T){for(var b=[],c=null,d=0,e=a.touches.length;d<e;d++)c=a.touches[d],b.push({x:c.pageX,y:c.pageY});return b}return[{x:a.pageX,y:a.pageY}]}function d(a,b){var c=b.x-a.x,d=b.y-a.y;return Math.sqrt(c*c+d*d)}function e(a){return a.touches?a.touches.length:1}function f(a,b){if(a.length>=2&&b.length>=2){var c=d(a[1],a[0]),e=d(b[1],b[0]);return e/c}return 1}function g(a,b){return 180*Math.atan2(b.y-a.y,b.x-a.x)/Math.PI}function h(a,b){var c=Math.atan((b.y-a.y)*-1/(b.x-a.x))*(180/Math.PI);return c<0?c+180:c}function i(a){var b={up:a<-45&&a>-135,down:a>=45&&a<135,left:a>=135||a<=-135,right:a>=-45&&a<=45};for(var c in b)if(b[c])return c;return null}function j(a){for(var b=0,c=0;a.offsetParent;)b+=a.offsetLeft,c+=a.offsetTop,a=a.offsetParent;return{left:b,top:c}}function k(){t=u=v=null,C=A=w=x=!1,y=!1,r={},F=!1}function l(a){return"touchmove"===a.type||"mousemove"===a.type}function m(a){return"touchend"===a.type||"mouseup"===a.type||"touchcancel"===a.type}function n(){var b=T?"touchstart touchmove touchend touchcancel":"mouseup mousedown mousemove mouseout";X(a,b,W)}var o=function(){var a=window.navigator,b=a.userAgent,c=b.match(/(Android)[\s\/]+([\d\.]+)/),d=b.match(/(iPad|iPhone|iPod)\s+OS\s([\d_\.]+)/),e=b.match(/(Windows\s+Phone)\s([\d\.]+)/),f=/WebKit\/[\d.]+/i.test(b),g=!!d&&(a.standalone?f:/Safari/i.test(b)&&!/CriOS/i.test(b)&&!/MQQBrowser/i.test(b)),h={};return c&&(h.android=!0,h.version=c[2]),d&&(h.ios=!0,h.version=d[2].replace(/_/g,"."),h.ios7=/^7/.test(h.version),"iPad"===d[1]?h.ipad=!0:"iPhone"===d[1]?(h.iphone=!0,h.iphone5=568==screen.height):"iPod"===d[1]&&(h.ipod=!0)),e&&(h.wp=!0,h.version=e[2],h.wp8=/^8/.test(h.version)),f&&(h.webkit=!0),g&&(h.safari=!0),h}(),p={touchstart:"mousedown",touchmove:"mousemove",touchend:"mouseup",touchcancel:"mouseout"},q={getType:function(a){return Object.prototype.toString.call(a).match(/\s([a-z|A-Z]+)/)[1].toLowerCase()},getSelector:function(a){if(a.id)return"#"+a.id;if(a.className){var b=a.className.split(/\s+/);return"."+b.join(".")}return a===document?"body":a.tagName.toLowerCase()},matchSelector:function(a,b){return a.webkitMatchesSelector(b)},getEventListeners:function(a){return a.listeners},getPCevts:function(a){return p[a]||a},forceReflow:function(){var a=document.getElementById("domTreeOp");a||(a=document.createElement("div"),a.id="domTreeOp",document.body.appendChild(a));var b=a.parentNode,c=a.nextSibling;b.removeChild(a),b.insertBefore(a,c)},simpleClone:function(a){return JSON.parse(JSON.stringify(a))}},r={start:null,move:null,end:null},s=0,t=null,u=null,v=null,w=!1,x=!1,y=!1,z={},A=!1,B=null,C=!1,D=null,E=1,F=!1,G=[],H=0,I=0,J=0,K=null,L=0,M=[],N=function(a,b,c){c=c||{};var d,e={bubbles:!0,cancelable:!0,detail:c};"undefined"!=typeof CustomEvent?(d=new CustomEvent(b,e),a&&a.dispatchEvent(d)):(d=document.createEvent("CustomEvent"),d.initCustomEvent(b,!0,!0,c),a&&a.dispatchEvent(d))},O=function(a,b,c){a.listeners=a.listeners||{},a.listeners[b]?a.listeners[b].push(c):a.listeners[b]=[c];var d=function(a){o.ios7&&q.forceReflow(),a.originEvent=a,a.startRotate=function(){F=!0};for(var b in a.detail)"type"!==b&&(a[b]=a.detail[b]);var d=c.call(a.target,a);"undefined"==typeof d||d||(a.stopPropagation(),a.preventDefault())};c.proxy=c.proxy||{},c.proxy[b]?c.proxy[b].push(L++):c.proxy[b]=[L++],M.push(d),a.addEventListener&&a.addEventListener(b,d,!1)},P=function(a,b,c){if(c){var d=c.proxy[b];d&&d.length&&d.forEach(function(c){a.removeEventListener&&a.removeEventListener(b,M[c],!1)})}else{var e=a.listeners[b];e&&e.length&&e.forEach(function(c){a.removeEventListener(b,c,!1)})}},Q=function(a,b,c,d){var e=function(b){var e,f;b.originEvent=b,b.startRotate=function(){F=!0};for(var g in b.detail)"type"!==g&&(b[g]=b.detail[g]);var h=q.getSelector(a)+" "+c,i=q.matchSelector(b.target,h),j=q.matchSelector(b.target,h+" "+b.target.nodeName);if(!i&&j){for(o.ios7&&q.forceReflow(),e=b.target;!q.matchSelector(e,h);)e=e.parentNode;f=d.call(b.target,b),"undefined"==typeof f||f||(b.stopPropagation(),b.preventDefault())}else o.ios7&&q.forceReflow(),(i||j)&&(f=d.call(b.target,b),"undefined"==typeof f||f||(b.stopPropagation(),b.preventDefault()))};d.proxy=d.proxy||{},d.proxy[b]?d.proxy[b].push(L++):d.proxy[b]=[L++],M.push(e),a.listeners=a.listeners||{},a.listeners[b]?a.listeners[b].push(e):a.listeners[b]=[e],a.addEventListener&&a.addEventListener(b,e,!1)},R=function(a,b,c,d){if(d){var e=d.proxy[b];e.length&&e.forEach(function(c){a.removeEventListener&&a.removeEventListener(b,M[c],!1)})}else{var f=a.listeners[b];f.forEach(function(c){a.removeEventListener(b,c,!1)})}},S={tap:!0,doubleTap:!0,tapMaxDistance:10,hold:!0,holdTime:650,maxDoubleTapInterval:300,swipe:!0,swipeTime:300,swipeMinDistance:18,swipeFactor:5,drag:!0,pinch:!0,minScaleRate:0,minRotationAngle:0},T="ontouchstart"in window,U={TOUCH_START:"touchstart",TOUCH_MOVE:"touchmove",TOUCH_END:"touchend",TOUCH_CANCEL:"touchcancel",MOUSE_DOWN:"mousedown",MOUSE_MOVE:"mousemove",MOUSE_UP:"mouseup",CLICK:"click",PINCH_START:"pinchstart",PINCH_END:"pinchend",PINCH:"pinch",PINCH_IN:"pinchin",PINCH_OUT:"pinchout",ROTATION_LEFT:"rotateleft",ROTATION_RIGHT:"rotateright",ROTATION:"rotate",SWIPE_START:"swipestart",SWIPING:"swiping",SWIPE_END:"swipeend",SWIPE_LEFT:"swipeleft",SWIPE_RIGHT:"swiperight",SWIPE_UP:"swipeup",SWIPE_DOWN:"swipedown",SWIPE:"swipe",DRAG:"drag",DRAGSTART:"dragstart",DRAGEND:"dragend",HOLD:"hold",TAP:"tap",DOUBLE_TAP:"doubletap"},V={_getAngleDiff:function(a){for(var b=parseInt(H-h(a[0],a[1]),10),c=0;Math.abs(b-I)>90&&c++<50;)I<0?b-=180:b+=180;return I=parseInt(b,10)},pinch:function(a){var b=a.target;if(S.pinch){if(!A)return;if(e(a)<2&&!m(a))return;var c=f(r.start,r.move),d=this._getAngleDiff(r.move),g={type:"",originEvent:a,scale:c,rotation:d,direction:d>0?"right":"left",fingersCount:e(a)};if(x?l(a)?(g.fingerStatus="move",N(b,U.PINCH,g)):m(a)&&(g.fingerStatus="end",N(b,U.PINCH_END,g),k()):(x=!0,g.fingerStatus="start",N(b,U.PINCH_START,g)),Math.abs(1-c)>S.minScaleRate){var h=q.simpleClone(g),i=1e-11;c>E?(E=c-i,N(b,U.PINCH_OUT,h,!1)):c<E&&(E=c+i,N(b,U.PINCH_IN,h,!1)),m(a)&&(E=1)}if(Math.abs(d)>S.minRotationAngle){var j,n=q.simpleClone(g);j=d>0?U.ROTATION_RIGHT:U.ROTATION_LEFT,N(b,j,n,!1),N(b,U.ROTATION,g)}}},rotateSingleFinger:function(a){var b=a.target;if(F&&e(a)<2){if(!r.move)return;if(G.length<2){var c=j(b);G=[{x:c.left+b.offsetWidth/2,y:c.top+b.offsetHeight/2},r.move[0]],H=parseInt(h(G[0],G[1]),10)}var d=[G[0],r.move[0]],f=this._getAngleDiff(d),g={type:"",originEvent:a,rotation:f,direction:f>0?"right":"left",fingersCount:e(a)};l(a)?g.fingerStatus="move":(m(a)||"mouseout"===a.type)&&(g.fingerStatus="end",N(b,U.PINCH_END,g),k());var i=f>0?U.ROTATION_RIGHT:U.ROTATION_LEFT;N(b,i,g),N(b,U.ROTATION,g)}},swipe:function(a){var b=a.target;if(A&&r.move&&!(e(a)>1)){var c=Date.now(),f=c-s,h=d(r.start[0],r.move[0]),j={x:r.move[0].x-z.left,y:r.move[0].y-z.top},k=g(r.start[0],r.move[0]),n=i(k),o=f/1e3,p=10*(10-S.swipeFactor)*o*o,q={type:U.SWIPE,originEvent:a,position:j,direction:n,distance:h,distanceX:r.move[0].x-r.start[0].x,distanceY:r.move[0].y-r.start[0].y,x:r.move[0].x-r.start[0].x,y:r.move[0].y-r.start[0].y,angle:k,duration:f,fingersCount:e(a),factor:p};if(S.swipe){var t=function(){var a=U;switch(n){case"up":N(b,a.SWIPE_UP,q);break;case"down":N(b,a.SWIPE_DOWN,q);break;case"left":N(b,a.SWIPE_LEFT,q);break;case"right":N(b,a.SWIPE_RIGHT,q)}};w?l(a)?(a.preventDefault(),q.fingerStatus=q.swipe="move",N(b,U.SWIPING,q),f>S.swipeTime&&f<S.swipeTime+50&&h>S.swipeMinDistance&&(t(),N(b,U.SWIPE,q,!1))):(m(a)||"mouseout"===a.type)&&(q.fingerStatus=q.swipe="end",N(b,U.SWIPE_END,q),S.swipeTime>f&&h>S.swipeMinDistance&&(t(),N(b,U.SWIPE,q,!1))):(q.fingerStatus=q.swipe="start",w=!0,N(b,U.SWIPE_START,q))}S.drag&&(y?l(a)?(q.fingerStatus=q.swipe="move",N(b,U.DRAG,q)):m(a)&&(q.fingerStatus=q.swipe="end",N(b,U.DRAGEND,q)):(q.fingerStatus=q.swipe="start",y=!0,N(b,U.DRAGSTART,q)))}},tap:function(a){var b=a.target;if(S.tap){var c=Date.now(),f=c-s,g=d(r.start[0],r.move?r.move[0]:r.start[0]);clearTimeout(B);var h=function(){if(K&&S.doubleTap&&s-J<S.maxDoubleTapInterval){var a=d(K,r.start[0]);if(a<16)return!0}return!1}();if(h)return clearTimeout(D),void N(b,U.DOUBLE_TAP,{type:U.DOUBLE_TAP,originEvent:a,position:r.start[0]});if(S.tapMaxDistance<g)return;S.holdTime>f&&e(a)<=1&&(C=!0,J=c,K=r.start[0],D=setTimeout(function(){N(b,U.TAP,{type:U.TAP,originEvent:a,fingersCount:e(a),position:K})},220))}},hold:function(a){var b=a.target;S.hold&&(clearTimeout(B),B=setTimeout(function(){if(r.start){var c=d(r.start[0],r.move?r.move[0]:r.start[0]);S.tapMaxDistance<c||C||N(b,"hold",{type:"hold",originEvent:a,fingersCount:e(a),position:r.start[0]})}},S.holdTime))}},W=function(a){var b=a.target;switch(a.type){case"touchstart":case"mousedown":G=[],A=!0,(!r.start||r.start.length<2)&&(r.start=c(a)),e(a)>=2&&(H=parseInt(h(r.start[0],r.start[1]),10)),s=Date.now(),t=a,z={};var d=b.getBoundingClientRect(),f=document.documentElement;z={top:d.top+(window.pageYOffset||f.scrollTop)-(f.clientTop||0),left:d.left+(window.pageXOffset||f.scrollLeft)-(f.clientLeft||0)},V.hold(a);break;case"touchmove":case"mousemove":if(!A||!r.start)return;r.move=c(a),e(a)>=2?V.pinch(a):F?V.rotateSingleFinger(a):V.swipe(a);break;case"touchend":case"touchcancel":case"mouseup":case"mouseout":if(!A)return;v=a,x?V.pinch(a):F?V.rotateSingleFinger(a):w?V.swipe(a):V.tap(a),k(),H=0,I=0,a.touches&&1===a.touches.length&&(A=!0,F=!0)}},X=function(){function b(a){T||(a=q.getPCevts(a)),i.forEach(function(b){Q(b,a,g,f[a])})}function c(a){T||(a=q.getPCevts(a)),i.forEach(function(b){O(b,a,f[a])})}var d,e,f,g,h=arguments;if(h.length<2||h>4)return console.error("unexpected arguments!");var i="string"===q.getType(h[0])?a.querySelectorAll(h[0]):h[0];if(i=i.length?Array.prototype.slice.call(i):[i],3===h.length&&"string"===q.getType(h[1]))return d=h[1].split(" "),e=h[2],void d.forEach(function(a){T||(a=q.getPCevts(a)),i.forEach(function(b){O(b,a,e)})});if(3!==h.length||"object"!==q.getType(h[1]))if(2!==h.length||"object"!==q.getType(h[1])){if(4===h.length&&"object"===q.getType(h[2]))return d=h[1].split(" "),e=h[3],void d.forEach(function(a){T||(a=q.getPCevts(a)),i.forEach(function(b){O(b,a,e)})});if(4===h.length){var j=i[0];return d=h[1].split(" "),g=h[2],e=h[3],void d.forEach(function(a){T||(a=q.getPCevts(a)),Q(j,a,g,e)})}}else{f=h[1];for(var k in f)c(k)}else{f=h[1],g=h[2];for(var l in f)b(l)}},Y=function(){var b,c,d=arguments;if(d.length<1||d.length>4)return console.error("unexpected arguments!");var e="string"===q.getType(d[0])?a.querySelectorAll(d[0]):d[0];if(e=e.length?Array.prototype.slice.call(e):[e],1===d.length||2===d.length)return void e.forEach(function(a){b=d[1]?d[1].split(" "):Object.keys(a.listeners),b.length&&b.forEach(function(b){T||(b=q.getPCevts(b)),P(a,b),R(a,b)})});if(3===d.length&&"function"===q.getType(d[2]))return c=d[2],void e.forEach(function(a){b=d[1].split(" "),b.forEach(function(b){T||(b=q.getPCevts(b)),P(a,b,c)})});if(3===d.length&&"string"===q.getType(d[2])){var f=d[2];return void e.forEach(function(a){b=d[1].split(" "),b.forEach(function(b){T||(b=q.getPCevts(b)),R(a,b,f)})})}return 4===d.length?(c=d[3],void e.forEach(function(a){b=d[1].split(" "),b.forEach(function(b){T||(b=q.getPCevts(b)),R(a,b,f,c)})})):void 0},Z=function(b,c,d){var e=arguments;T||(c=q.getPCevts(c));var f="string"===q.getType(e[0])?a.querySelectorAll(e[0]):e[0];f=f.length?Array.prototype.call(f):[f],f.forEach(function(a){N(a,c,d)})};n(),b.on=X,b.off=Y,b.bind=X,b.unbind=Y,b.live=X,b.die=Y,b.config=S,b.trigger=Z}(document,touch),exports.default=touch;
+var touch = touch || {};
+
+(function(doc, exports) {
+    'use strict';
+    var os = (function() {
+        var navigator = window.navigator,
+        userAgent = navigator.userAgent,
+        android = userAgent.match(/(Android)[\s\/]+([\d\.]+)/),
+        ios = userAgent.match(/(iPad|iPhone|iPod)\s+OS\s([\d_\.]+)/),
+        wp = userAgent.match(/(Windows\s+Phone)\s([\d\.]+)/),
+        isWebkit = /WebKit\/[\d.]+/i.test(userAgent),
+        isSafari = ios ? (navigator.standalone ? isWebkit: (/Safari/i.test(userAgent) && !/CriOS/i.test(userAgent) && !/MQQBrowser/i.test(userAgent))) : false,
+        os = {};
+
+        if (android) {
+            os.android = true;
+            os.version = android[2];
+        }
+        if (ios) {
+            os.ios = true;
+            os.version = ios[2].replace(/_/g, '.');
+            os.ios7 = /^7/.test(os.version);
+            if (ios[1] === 'iPad') {
+                os.ipad = true;
+            } else if (ios[1] === 'iPhone') {
+                os.iphone = true;
+                os.iphone5 = screen.height == 568;
+            } else if (ios[1] === 'iPod') {
+                os.ipod = true;
+            }
+        }
+        if (wp) {
+            os.wp = true;
+            os.version = wp[2];
+            os.wp8 = /^8/.test(os.version);
+        }
+        if (isWebkit) {
+            os.webkit = true;
+        }
+        if (isSafari) {
+            os.safari = true;
+        }
+
+        return os;
+    })();
+
+    var PCevts = {
+        'touchstart': 'mousedown',
+        'touchmove': 'mousemove',
+        'touchend': 'mouseup',
+        'touchcancel': 'mouseout'
+    };
+
+    var utils = {
+        getType: function(obj) {
+            return Object.prototype.toString.call(obj).match(/\s([a-z|A-Z]+)/)[1].toLowerCase();
+        },
+        getSelector: function(el) {
+            if (el.id) {
+                return "#" + el.id;
+            }
+            if (el.className) {
+                var cns = el.className.split(/\s+/);
+                return "." + cns.join(".");
+            } else if(el === document){
+                return "body";
+            }else{
+                return el.tagName.toLowerCase();
+            }
+        },
+        matchSelector: function(target, selector) {
+            return target.webkitMatchesSelector(selector);
+        },
+        getEventListeners: function(el) {
+            return el.listeners;
+        },
+        getPCevts: function(evt) {
+            return PCevts[evt] || evt;
+        },
+        forceReflow: function() {
+            var domTreeOpDiv = document.getElementById("domTreeOp");
+            if (!domTreeOpDiv) {
+                domTreeOpDiv = document.createElement("div");
+                domTreeOpDiv.id = "domTreeOp";
+                document.body.appendChild(domTreeOpDiv);
+            }
+            var parentNode = domTreeOpDiv.parentNode;
+            var nextSibling = domTreeOpDiv.nextSibling;
+            parentNode.removeChild(domTreeOpDiv);
+            parentNode.insertBefore(domTreeOpDiv, nextSibling);
+        },
+        simpleClone: function(obj){
+            return JSON.parse(JSON.stringify(obj));
+        }
+    };
+
+
+
+    var pos = {
+        start: null,
+        move: null,
+        end: null
+    };
+    var startTime = 0;
+    // var fingers = 0;
+    var startEvent = null;
+    var moveEvent = null;
+    var endEvent = null;
+    var startSwiping = false;
+    var startPinch = false;
+    var startDrag = false;
+
+    var __offset = {};
+    var __touchStart = false;
+    var __holdTimer = null;
+    var __tapped = false;
+    // var __lastTapEndTime = null;
+    var __tapTimer = null;
+
+    var __scale_last_rate = 1;
+    var __rotation_single_finger = false;
+    var __rotation_single_start = []; //元素坐标中心位置
+    var __initial_angle = 0;
+    var __rotation = 0;
+
+    var __prev_tapped_end_time = 0;
+    var __prev_tapped_pos = null;
+
+
+
+    /** 底层事件绑定/代理支持  */
+    var proxyid = 0;
+    var proxies = [];
+    var _trigger = function(el, evt, detail) {
+
+        detail = detail || {};
+        var e,
+            opt = {
+            bubbles: true,
+            cancelable: true,
+            detail: detail
+        };
+
+        if (typeof CustomEvent !== 'undefined') {
+            e = new CustomEvent(evt, opt);
+            if (el) {
+                el.dispatchEvent(e);
+            }
+        } else {
+            e = document.createEvent("CustomEvent");
+            e.initCustomEvent(evt, true, true, detail);
+            if (el) {
+                el.dispatchEvent(e);
+            }
+        }
+    };
+
+    /**
+     * {DOM} element
+     * {String} eventName
+     * {Function} handler
+     */
+    var _bind = function(el, evt, handler) {
+        el.listeners = el.listeners || {};
+
+        if (!el.listeners[evt]) {
+            el.listeners[evt] = [handler];
+        } else {
+            el.listeners[evt].push(handler);
+        }
+        var proxy = function(e) {
+            if (os.ios7) {
+                utils.forceReflow();
+            }
+            e.originEvent = e;
+            e.startRotate = function() {
+                __rotation_single_finger = true;
+            };
+            for (var p in e.detail) {
+                if(p !== 'type'){
+                    e[p] = e.detail[p];
+                }
+            }
+            var returnValue = handler.call(e.target, e);
+            if(typeof returnValue !== "undefined" && !returnValue){
+                e.stopPropagation();
+                e.preventDefault();
+            }
+        };
+
+        handler.proxy = handler.proxy || {};
+        if (!handler.proxy[evt]) {
+            handler.proxy[evt] = [proxyid++];
+        } else {
+            handler.proxy[evt].push(proxyid++);
+        }
+        proxies.push(proxy);
+
+        if( el.addEventListener){ el.addEventListener(evt, proxy, false); }
+    };
+
+    /**
+     * {DOM} element
+     * {String} eventName
+     * {Function} the same handler of _bind
+     */
+    var _unbind = function(el, evt, handler) {
+        if (!handler) {
+            var handlers = el.listeners[evt];
+            if (handlers && handlers.length) {
+                handlers.forEach(function(handler) {
+                    el.removeEventListener(evt, handler, false);
+                });
+            }
+        } else {
+            var proxyids = handler.proxy[evt];
+            if (proxyids && proxyids.length) {
+                proxyids.forEach(function(proxyid) {
+                    if (el.removeEventListener) {
+                        el.removeEventListener(evt, proxies[proxyid], false);
+                    }
+                });
+            }
+        }
+    };
+
+    /**
+     * {DOM} delegate element
+     * {String} eventName
+     * {String} selector of sub elements
+     * {Function} handler
+     */
+    var _delegate = function(el, evt, sel, handler) {
+        var proxy = function(e) {
+            var target, returnValue;
+            e.originEvent = e;
+            e.startRotate = function() {
+                __rotation_single_finger = true;
+            };
+            for (var p in e.detail) {
+                if(p !== 'type'){
+                    e[p] = e.detail[p];
+                }
+            }
+            var integrateSelector = utils.getSelector(el) + " " + sel;
+            var match = utils.matchSelector(e.target, integrateSelector);
+            var ischild = utils.matchSelector(e.target, integrateSelector + " " + e.target.nodeName);
+            if (!match && ischild) {
+                if (os.ios7) {
+                    utils.forceReflow();
+                }
+                target = e.target;
+                while (!utils.matchSelector(target, integrateSelector)) {
+                    target = target.parentNode;
+                }
+                returnValue = handler.call(e.target, e);
+                if(typeof returnValue !== "undefined" && !returnValue){
+                    e.stopPropagation();
+                    e.preventDefault();
+                }
+            } else {
+                if (os.ios7) {
+                    utils.forceReflow();
+                }
+                if (match || ischild) {
+                    returnValue = handler.call(e.target, e);
+                    if(typeof returnValue !== "undefined" && !returnValue){
+                        e.stopPropagation();
+                        e.preventDefault();
+                    }
+                }
+            }
+        };
+
+        handler.proxy = handler.proxy || {};
+        if (!handler.proxy[evt]) {
+            handler.proxy[evt] = [proxyid++];
+        } else {
+            handler.proxy[evt].push(proxyid++);
+        }
+        proxies.push(proxy);
+
+        el.listeners = el.listeners || {};
+        if (!el.listeners[evt]) {
+            el.listeners[evt] = [proxy];
+        } else {
+            el.listeners[evt].push(proxy);
+        }
+        if(el.addEventListener){el.addEventListener(evt, proxy, false);}
+    };
+
+    /**
+     * {DOM} delegate element
+     * {String} eventName
+     * {String} selector of sub elements
+     * {Function} the same handler of _on
+     */
+    var _undelegate = function(el, evt, sel, handler) {
+        if (!handler) {
+            var listeners = el.listeners[evt];
+            listeners.forEach(function(proxy) {
+                el.removeEventListener(evt, proxy, false);
+            });
+        } else {
+            var proxyids = handler.proxy[evt];
+            if (proxyids.length) {
+                proxyids.forEach(function(proxyid) {
+                    if (el.removeEventListener) {
+                        el.removeEventListener(evt, proxies[proxyid], false);
+                    }
+                });
+            }
+        }
+    };
+
+    /** 手势识别 */
+    var config = {
+        tap: true,
+        doubleTap: true,
+        tapMaxDistance: 10,
+        hold: true,
+        holdTime: 650,
+        //ms
+        maxDoubleTapInterval: 300,
+
+        //swipe
+        swipe: true,
+        swipeTime: 300,
+        swipeMinDistance: 18,
+        swipeFactor: 5,
+
+        drag: true,
+        pinch: true,
+        minScaleRate: 0,
+        minRotationAngle: 0
+    };
+
+    var _hasTouch = ('ontouchstart' in window);
+    var smrEventList = {
+        TOUCH_START: 'touchstart',
+        TOUCH_MOVE: 'touchmove',
+        TOUCH_END: 'touchend',
+        TOUCH_CANCEL: 'touchcancel',
+
+        MOUSE_DOWN: 'mousedown',
+        MOUSE_MOVE: 'mousemove',
+        MOUSE_UP: 'mouseup',
+
+        CLICK: 'click',
+
+        //PINCH TYPE EVENT NAMES
+        PINCH_START: 'pinchstart',
+        PINCH_END: 'pinchend',
+        PINCH: 'pinch',
+        PINCH_IN: 'pinchin',
+        PINCH_OUT: 'pinchout',
+
+        ROTATION_LEFT: 'rotateleft',
+        ROTATION_RIGHT: 'rotateright',
+        ROTATION: 'rotate',
+
+        SWIPE_START: 'swipestart',
+        SWIPING: 'swiping',
+        SWIPE_END: 'swipeend',
+        SWIPE_LEFT: 'swipeleft',
+        SWIPE_RIGHT: 'swiperight',
+        SWIPE_UP: 'swipeup',
+        SWIPE_DOWN: 'swipedown',
+        SWIPE: 'swipe',
+
+        DRAG: 'drag',
+        DRAGSTART : 'dragstart',
+        DRAGEND : 'dragend',
+
+        //HOLD AND TAP  
+        HOLD: 'hold',
+        TAP: 'tap',
+        DOUBLE_TAP: 'doubletap'
+    };
+
+    /**
+     * 获取事件的位置信息
+     * @param  ev, 原生事件对象
+     * @return array  [{ x: int, y: int }]
+     */
+    function getPosOfEvent(ev) {
+        //多指触摸， 返回多个手势位置信息
+        if (_hasTouch) {
+            var posi = [];
+            var src = null;
+
+            for (var t = 0, len = ev.touches.length; t < len; t++) {
+                src = ev.touches[t];
+                posi.push({
+                    x: src.pageX,
+                    y: src.pageY
+                });
+            }
+            return posi;
+        } //处理PC浏览器的情况
+        else {
+            return [{
+                x: ev.pageX,
+                y: ev.pageY
+            }];
+        }
+    }
+    /**
+         *获取两点之间的距离
+         */
+    function getDistance(pos1, pos2) {
+        var x = pos2.x - pos1.x,
+        y = pos2.y - pos1.y;
+        return Math.sqrt((x * x) + (y * y));
+    }
+
+    /**
+     *计算事件的手势个数
+     *@param ev {Event}
+     */
+    function getFingers(ev) {
+        return ev.touches ? ev.touches.length: 1;
+    }
+    //计算收缩的比例
+    function calScale(pstart, pmove) {
+        if (pstart.length >= 2 && pmove.length >= 2) {
+            var disStart = getDistance(pstart[1], pstart[0]);
+            var disEnd = getDistance(pmove[1], pmove[0]);
+
+            return disEnd / disStart;
+        }
+        return 1;
+    }
+
+    //return 角度，范围为{-180-0，0-180}， 用来识别swipe方向。
+    function getAngle(p1, p2) {
+        return Math.atan2(p2.y - p1.y, p2.x - p1.x) * 180 / Math.PI;
+    }
+    //return 角度， 范围在{0-180}， 用来识别旋转角度
+    function _getAngle180(p1, p2) {
+        var agl = Math.atan((p2.y - p1.y) * -1 / (p2.x - p1.x)) * (180 / Math.PI);
+        return (agl < 0 ? (agl + 180) : agl);
+    }
+
+    //根据角度计算方位 
+    //@para agl {int} 是调用getAngle获取的。
+    function getDirectionFromAngle(agl) {
+        var directions = {
+            up: agl < -45 && agl > -135,
+            down: agl >= 45 && agl < 135,
+            left: agl >= 135 || agl <= -135,
+            right: agl >= -45 && agl <= 45
+        };
+        for (var key in directions) {
+            if (directions[key]) {
+                return key;
+            }
+        }
+        return null;
+    }
+
+    function getXYByElement(el) {
+        var left = 0,
+        top = 0;
+
+        while (el.offsetParent) {
+            left += el.offsetLeft;
+            top += el.offsetTop;
+            el = el.offsetParent;
+        }
+        return {
+            left: left,
+            top: top
+        };
+    }
+
+    function reset() {
+        startEvent = moveEvent = endEvent = null;
+        __tapped = __touchStart = startSwiping = startPinch = false;
+        startDrag = false;
+        pos = {};
+        __rotation_single_finger = false;
+    }
+
+    // function isTouchStart(ev) {
+    //     // ev.preventDefault();
+    //     return (ev.type === 'touchstart' || ev.type === 'mousedown');
+    // }
+    function isTouchMove(ev) {
+        // ev.preventDefault();
+        return (ev.type === 'touchmove' || ev.type === 'mousemove');
+    }
+    function isTouchEnd(ev) {
+        return (ev.type === 'touchend' || ev.type === 'mouseup' || ev.type === 'touchcancel');
+    }
+
+    
+
+    var gestures = {
+        _getAngleDiff: function(currentPos) {
+            var diff = parseInt(__initial_angle - _getAngle180(currentPos[0], currentPos[1]), 10);
+            var count = 0;
+
+            while (Math.abs(diff - __rotation) > 90 && count++<50) {
+                if (__rotation < 0) {
+                    diff -= 180;
+                } else {
+                    diff += 180;
+                }
+            }
+            __rotation = parseInt(diff, 10);
+            return __rotation;
+        },
+        pinch: function(ev) {
+            var el = ev.target;
+            if (config.pinch) {
+                //touchend进入此时的getFinger(ev) < 2
+                if (!__touchStart) {
+                    return;
+                }
+                if (getFingers(ev) < 2) {
+                    if (!isTouchEnd(ev)) {
+                        return;
+                    }
+                }
+                var scale = calScale(pos.start, pos.move);
+                var rotation = this._getAngleDiff(pos.move);
+                var eventObj = {
+                    type: '',
+                    originEvent: ev,
+                    scale: scale,
+                    rotation: rotation,
+                    direction: (rotation > 0 ? 'right': 'left'),
+                    fingersCount: getFingers(ev)
+                };
+                if (!startPinch) {
+                    startPinch = true;
+                    eventObj.fingerStatus = "start";
+                    _trigger(el, smrEventList.PINCH_START, eventObj);
+                } else if (isTouchMove(ev)) {
+                    eventObj.fingerStatus = "move";
+                    _trigger(el, smrEventList.PINCH, eventObj);
+                } else if (isTouchEnd(ev)) {
+                    eventObj.fingerStatus = "end";
+                    _trigger(el, smrEventList.PINCH_END, eventObj);
+                    reset();
+                }
+
+                if (Math.abs(1 - scale) > config.minScaleRate) {
+                    var scaleEv = utils.simpleClone(eventObj);
+
+                    //手势放大, 触发pinchout事件
+                    var scale_diff = 0.00000000001; //防止touchend的scale与__scale_last_rate相等，不触发事件的情况。
+                    if (scale > __scale_last_rate) {
+                        __scale_last_rate = scale - scale_diff;
+                        _trigger(el, smrEventList.PINCH_OUT, scaleEv, false);
+                    } //手势缩小,触发pinchin事件
+                    else if (scale < __scale_last_rate) {
+                        __scale_last_rate = scale + scale_diff;
+                        _trigger(el, smrEventList.PINCH_IN, scaleEv, false);
+                    }
+
+                    if (isTouchEnd(ev)) {
+                        __scale_last_rate = 1;
+                    }
+                }
+
+                if (Math.abs(rotation) > config.minRotationAngle) {
+                    var rotationEv = utils.simpleClone(eventObj), eventType;
+
+                    eventType = rotation > 0 ? smrEventList.ROTATION_RIGHT: smrEventList.ROTATION_LEFT;
+                    _trigger(el, eventType, rotationEv, false);
+                    _trigger(el, smrEventList.ROTATION, eventObj);
+                }
+
+            }
+        },
+        rotateSingleFinger: function(ev) {
+            var el = ev.target;
+            if (__rotation_single_finger && getFingers(ev) < 2) {
+                if (!pos.move) {
+                    return;
+                }
+                if (__rotation_single_start.length < 2) {
+                    var docOff = getXYByElement(el);
+
+                    __rotation_single_start = [{
+                        x: docOff.left + el.offsetWidth / 2,
+                        y: docOff.top + el.offsetHeight / 2
+                    },
+                    pos.move[0]];
+                    __initial_angle = parseInt(_getAngle180(__rotation_single_start[0], __rotation_single_start[1]), 10);
+                }
+                var move = [__rotation_single_start[0], pos.move[0]];
+                var rotation = this._getAngleDiff(move);
+                var eventObj = {
+                    type: '',
+                    originEvent: ev,
+                    rotation: rotation,
+                    direction: (rotation > 0 ? 'right': 'left'),
+                    fingersCount: getFingers(ev)
+                };
+
+                if (isTouchMove(ev)) {
+                    eventObj.fingerStatus = "move";
+                } else if (isTouchEnd(ev) || ev.type === 'mouseout') {
+                    eventObj.fingerStatus = "end";
+                    _trigger(el, smrEventList.PINCH_END, eventObj);
+                    reset();
+                }
+
+                var eventType = rotation > 0 ? smrEventList.ROTATION_RIGHT: smrEventList.ROTATION_LEFT;
+                _trigger(el, eventType, eventObj);
+                _trigger(el, smrEventList.ROTATION, eventObj);
+            }
+        },
+        swipe: function(ev) {
+            //目前swipe只存在一个手势上
+            var el = ev.target;
+            if (!__touchStart || !pos.move || getFingers(ev) > 1) {
+                return;
+            }
+
+            var now = Date.now();
+            var touchTime = now - startTime;
+            var distance = getDistance(pos.start[0], pos.move[0]);
+            var position = {
+                x: pos.move[0].x - __offset.left,
+                y: pos.move[0].y - __offset.top
+            };
+            var angle = getAngle(pos.start[0], pos.move[0]);
+            var direction = getDirectionFromAngle(angle);
+            var touchSecond = touchTime / 1000;
+            var factor = ((10 - config.swipeFactor) * 10 * touchSecond * touchSecond);
+            var eventObj = {
+                type: smrEventList.SWIPE,
+                //DEFAULT: smrEventList.SWIPE event.
+                originEvent: ev,
+                position: position,
+                direction: direction,
+                distance: distance,
+                distanceX: pos.move[0].x - pos.start[0].x,
+                distanceY: pos.move[0].y - pos.start[0].y,
+                x : pos.move[0].x - pos.start[0].x,
+                y : pos.move[0].y - pos.start[0].y,
+                angle: angle,
+                duration: touchTime,
+                fingersCount: getFingers(ev),
+                factor: factor
+            };
+            if (config.swipe) {
+                var swipeTo = function() {
+                    var elt = smrEventList;
+                    switch (direction) {
+                    case 'up':
+                        _trigger(el, elt.SWIPE_UP, eventObj);
+                        break;
+                    case 'down':
+                        _trigger(el, elt.SWIPE_DOWN, eventObj);
+                        break;
+                    case 'left':
+                        _trigger(el, elt.SWIPE_LEFT, eventObj);
+                        break;
+                    case 'right':
+                        _trigger(el, elt.SWIPE_RIGHT, eventObj);
+                        break;
+                    }
+                };
+
+                if (!startSwiping) {
+                    eventObj.fingerStatus = eventObj.swipe = 'start';
+                    startSwiping = true;
+                    _trigger(el, smrEventList.SWIPE_START, eventObj);
+                } else if (isTouchMove(ev)) {
+                    // test
+                    ev.preventDefault();
+                    
+                    eventObj.fingerStatus = eventObj.swipe = 'move';
+                    _trigger(el, smrEventList.SWIPING, eventObj);
+
+                    if (touchTime > config.swipeTime && touchTime < config.swipeTime + 50 && distance > config.swipeMinDistance) {
+                        swipeTo();
+                        _trigger(el, smrEventList.SWIPE, eventObj, false);
+                    }
+                } else if (isTouchEnd(ev) || ev.type === 'mouseout') {
+                    eventObj.fingerStatus = eventObj.swipe = 'end';
+                    _trigger(el, smrEventList.SWIPE_END, eventObj);
+
+                    if (config.swipeTime > touchTime && distance > config.swipeMinDistance) {
+                        swipeTo();
+                        _trigger(el, smrEventList.SWIPE, eventObj, false);
+                    }
+                }
+            }
+
+            if (config.drag) {
+                if (!startDrag) {
+                    eventObj.fingerStatus = eventObj.swipe = 'start';
+                    startDrag = true;
+                    _trigger(el, smrEventList.DRAGSTART, eventObj);
+                } else if (isTouchMove(ev)) {
+                    eventObj.fingerStatus = eventObj.swipe = 'move';
+                    _trigger(el, smrEventList.DRAG, eventObj);
+                } else if (isTouchEnd(ev)) {
+                    eventObj.fingerStatus = eventObj.swipe = 'end';
+                    _trigger(el, smrEventList.DRAGEND, eventObj);
+                }
+                
+            }
+        },
+        tap: function(ev) {
+            var el = ev.target;
+            if (config.tap) {
+                var now = Date.now();
+                var touchTime = now - startTime;
+                var distance = getDistance(pos.start[0], pos.move ? pos.move[0] : pos.start[0]);
+
+                clearTimeout(__holdTimer); //去除hold事件
+                var isDoubleTap = (function() {
+                    if (__prev_tapped_pos && 
+                        config.doubleTap && 
+                        (startTime - __prev_tapped_end_time) < config.maxDoubleTapInterval) 
+                    {
+                        var doubleDis = getDistance(__prev_tapped_pos, pos.start[0]);
+                        if (doubleDis < 16) {
+                            return true;
+                        }
+                    }
+                    return false;
+                })();
+
+                if (isDoubleTap) {
+                    clearTimeout(__tapTimer);
+                    _trigger(el, smrEventList.DOUBLE_TAP, {
+                        type: smrEventList.DOUBLE_TAP,
+                        originEvent: ev,
+                        position: pos.start[0]
+                    });
+                    return;
+                }
+
+                if (config.tapMaxDistance < distance) {
+                    return;
+                }
+
+                if (config.holdTime > touchTime && 
+                    getFingers(ev) <= 1) 
+                {
+                    //clearTimeout在ios上有时不work（alert引起的）， 先用__tapped顶一下
+                    __tapped = true;
+                    __prev_tapped_end_time = now;
+                    __prev_tapped_pos = pos.start[0];
+                    __tapTimer = setTimeout(function(){
+                        _trigger(el, smrEventList.TAP, {
+                            type: smrEventList.TAP,
+                            originEvent: ev,
+                            fingersCount: getFingers(ev),
+                            position: __prev_tapped_pos
+                        });
+                    }, 220);
+                }
+            }
+        },
+        hold: function(ev) {
+            var el = ev.target;
+            if (config.hold) {
+                clearTimeout(__holdTimer);
+
+                __holdTimer = setTimeout(function() {
+                    if (!pos.start) {
+                        return;
+                    }
+                    var distance = getDistance(pos.start[0], pos.move ? pos.move[0] : pos.start[0]);
+                    if (config.tapMaxDistance < distance) {
+                        return;
+                    }
+
+                    if (!__tapped) {
+                        _trigger(el, "hold", {
+                            type: 'hold',
+                            originEvent: ev,
+                            fingersCount: getFingers(ev),
+                            position: pos.start[0]
+                        });
+                    }
+                },
+                config.holdTime);
+            }
+        }
+    };
+
+    var handlerOriginEvent = function(ev) {
+
+        var el = ev.target;
+        switch (ev.type) {
+        case 'touchstart':
+        case 'mousedown':
+            //__rotation_single_finger = false;
+            __rotation_single_start = [];
+            __touchStart = true;
+            if (!pos.start || pos.start.length < 2) {
+                pos.start = getPosOfEvent(ev);
+            }
+            if (getFingers(ev) >= 2) {
+                __initial_angle = parseInt(_getAngle180(pos.start[0], pos.start[1]), 10);
+            }
+
+            startTime = Date.now();
+            startEvent = ev;
+            __offset = {};
+            
+            var box = el.getBoundingClientRect();
+            var docEl = document.documentElement;
+            __offset = {
+                top: box.top + (window.pageYOffset || docEl.scrollTop) - (docEl.clientTop || 0),
+                left: box.left + (window.pageXOffset || docEl.scrollLeft) - (docEl.clientLeft || 0)
+            };
+
+            gestures.hold(ev);
+            break;
+        case 'touchmove':
+        case 'mousemove':
+            if (!__touchStart || !pos.start) {
+                return;
+            }
+            pos.move = getPosOfEvent(ev);
+            if (getFingers(ev) >= 2) {
+                gestures.pinch(ev);
+            } else if (__rotation_single_finger) {
+                gestures.rotateSingleFinger(ev);
+            } else {
+                gestures.swipe(ev);
+            }
+            break;
+        case 'touchend':
+        case 'touchcancel':
+        case 'mouseup':
+        case 'mouseout':
+            if (!__touchStart) {
+                return;
+            }
+            endEvent = ev;
+
+            if (startPinch) {
+                gestures.pinch(ev);
+            } else if (__rotation_single_finger) {
+                gestures.rotateSingleFinger(ev);
+            } else if (startSwiping) {
+                gestures.swipe(ev);
+            } else {
+                gestures.tap(ev);
+            }
+
+            reset();
+            __initial_angle = 0;
+            __rotation = 0;
+            if (ev.touches && ev.touches.length === 1) {
+                __touchStart = true;
+                __rotation_single_finger = true;
+            }
+            break;
+        }
+    };
+
+    /**
+    开发者接口
+    usage:
+        touch.on("#test", "tap swipeleft swiperight", handler);
+        touch.trigger("#test", "tap");
+        touch.off("#test", "tap swipeleft swiperight", handler);
+     */
+    var _on = function() {
+
+        var evts, handler, evtMap, sel, args = arguments;
+        if (args.length < 2 || args > 4) {
+            return console.error("unexpected arguments!");
+        }
+        var els = utils.getType(args[0]) === 'string' ? doc.querySelectorAll(args[0]) : args[0];
+        els = els.length ? Array.prototype.slice.call(els) : [els];
+        //事件绑定
+        if (args.length === 3 && utils.getType(args[1]) === 'string') {
+            evts = args[1].split(" ");
+            handler = args[2];
+            evts.forEach(function(evt) {
+                if (!_hasTouch) {
+                    evt = utils.getPCevts(evt);
+                }
+                els.forEach(function(el) {
+                    _bind(el, evt, handler);
+                });
+            });
+            return;
+        }
+        
+        function evtMapDelegate( evt ){
+            if (!_hasTouch) {
+                evt = utils.getPCevts(evt);
+            }
+            els.forEach(function(el) {
+                _delegate(el, evt, sel, evtMap[evt]);
+            });
+        }
+        //mapEvent delegate
+        if (args.length === 3 && utils.getType(args[1]) === 'object') {
+            evtMap = args[1];
+            sel = args[2];
+            for (var evt1 in evtMap) {
+                evtMapDelegate(evt1);
+            }
+            return;
+        }
+        
+        function evtMapBind(evt){
+            if (!_hasTouch) {
+                evt = utils.getPCevts(evt);
+            }
+            els.forEach(function(el) {
+                _bind(el, evt, evtMap[evt]);
+            });
+        }
+        
+        //mapEvent bind
+        if (args.length === 2 && utils.getType(args[1]) === 'object') {
+            evtMap = args[1];
+            for (var evt2 in evtMap) {
+                evtMapBind(evt2);
+            }
+            return;
+        }
+
+        //兼容factor config
+        if (args.length === 4 && utils.getType(args[2]) === "object") {
+            evts = args[1].split(" ");
+            handler = args[3];
+            evts.forEach(function(evt) {
+                if (!_hasTouch) {
+                    evt = utils.getPCevts(evt);
+                }
+                els.forEach(function(el) {
+                    _bind(el, evt, handler);
+                });
+            });
+            return;
+        }
+
+        //事件代理
+        if (args.length === 4) {
+            var el = els[0];
+            evts = args[1].split(" ");
+            sel = args[2];
+            handler = args[3];
+            evts.forEach(function(evt) {
+                if (!_hasTouch) {
+                    evt = utils.getPCevts(evt);
+                }
+                _delegate(el, evt, sel, handler);
+            });
+            return;
+        }
+    };
+
+    var _off = function() {
+        var evts, handler;
+        var args = arguments;
+        if (args.length < 1 || args.length > 4) {
+            return console.error("unexpected arguments!");
+        }
+        var els = utils.getType(args[0]) === 'string' ? doc.querySelectorAll(args[0]) : args[0];
+        els = els.length ? Array.prototype.slice.call(els) : [els];
+
+        if (args.length === 1 || args.length === 2) {
+            els.forEach(function(el) {
+                evts = args[1] ? args[1].split(" ") : Object.keys(el.listeners);
+                if (evts.length) {
+                    evts.forEach(function(evt) {
+                        if (!_hasTouch) {
+                            evt = utils.getPCevts(evt);
+                        }
+                        _unbind(el, evt);
+                        _undelegate(el, evt);
+                    });
+                }
+            });
+            return;
+        }
+
+        if (args.length === 3 && utils.getType(args[2]) === 'function') {
+            handler = args[2];
+            els.forEach(function(el) {
+                evts = args[1].split(" ");
+                evts.forEach(function(evt) {
+                    if (!_hasTouch) {
+                        evt = utils.getPCevts(evt);
+                    }
+                    _unbind(el, evt, handler);
+                });
+            });
+            return;
+        }
+
+        if (args.length === 3 && utils.getType(args[2]) === 'string') {
+            var sel = args[2];
+            els.forEach(function(el) {
+                evts = args[1].split(" ");
+                evts.forEach(function(evt) {
+                    if (!_hasTouch) {
+                        evt = utils.getPCevts(evt);
+                    }
+                    _undelegate(el, evt, sel);
+                });
+            });
+            return;
+        }
+
+        if (args.length === 4) {
+            handler = args[3];
+            els.forEach(function(el) {
+                evts = args[1].split(" ");
+                evts.forEach(function(evt) {
+                    if (!_hasTouch) {
+                        evt = utils.getPCevts(evt);
+                    }
+                    _undelegate(el, evt, sel, handler);
+                });
+            });
+            return;
+        }
+    };
+
+    var _dispatch = function(el, evt, detail) {
+        var args = arguments;
+        if (!_hasTouch) {
+            evt = utils.getPCevts(evt);
+        }
+        var els = utils.getType(args[0]) === 'string' ? doc.querySelectorAll(args[0]) : args[0];
+        els = els.length ? Array.prototype.call(els) : [els];
+
+        els.forEach(function(el) {
+            _trigger(el, evt, detail);
+        });
+    };
+
+    //init gesture
+    function init() {
+        var eventNames = _hasTouch ? 'touchstart touchmove touchend touchcancel': 'mouseup mousedown mousemove mouseout';
+        _on(doc, eventNames, handlerOriginEvent);
+    }
+
+    init();
+
+    exports.on = _on;
+    exports.off = _off;
+    exports.bind = _on;
+    exports.unbind = _off;
+    exports.live = _on;
+    exports.die = _off;
+    exports.config = config;
+    exports.trigger = _dispatch;
+
+})(document, touch);
+
+module.exports = touch;
+// export default touch;
