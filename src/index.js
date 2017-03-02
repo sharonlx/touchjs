@@ -3,7 +3,7 @@
 
     var Touch = require('./../lib/touch.js');
     var vueTouch = {};
-    
+
     var gestures = [
         'tap',
         'pinchstart', 'pinch', 'pinchend', 'pinchin', 'pinchout',
@@ -30,12 +30,14 @@
 
             isFn: true,
             acceptStatement: true,
-            priority: Vue.directive('on').priority,
+            // priority: Vue.directive('on').priority,
 
-            bind: function() {
-                
+            bind: function(el, binding, vnode, oldVnode) {
+
                     // determine event type
-                var event = this.arg;
+                var modifiers = binding.modifiers;
+
+                var event = binding.arg;
                 if (!event) {
                     console.warn('[vue-touch] event type argument is required.');
                 }
@@ -54,36 +56,59 @@
                 this.recognizerType = recognizerType;
                 // apply global options
                 // var globalOptions = vueTouch.config[recognizerType];
-                // 
+                //
             },
 
-            update: function(fn) {
-                var event = this.arg;
+            update: function(el, binding, vnode, oldVnode) {
+              // debugger
+                var event = binding.arg;
+                var handlerName = binding.expression;// handlerName
+                var modifiers = binding.modifiers;
+                el._handler = (el._handler || {});
+                el._handler[event] = el._handler[event] || [];
+
+                var sameEventExist = (el._handler[event].filter(function(evt) {return evt.name === handlerName}).length !== 0);
                     // teardown old handler
-                if (this.handler) {
-                    Touch.off(event, this.handler);
+                if (sameEventExist) {
+                  return ;
                 }
+
+                var fn = binding.value;
+                // console.log(fn.toString())
+                
+                var wrapperFun = function() {
+                  var ret = fn.apply(null, arguments);
+                  if (modifiers.stop) {
+                      return false;
+                  }
+                };
+                el._handler[event].push({
+                  name: handlerName,
+                  handler: wrapperFun
+                });
+
                 if (typeof fn !== 'function') {
-                    this.handler = null;
                     console.warn(
                         '[vue-touch] invalid handler function for v-touch: ' +
-                        this.arg + '="' + this.descriptor.raw
+                        event + '="' + binding.rawName
                     );
                 } else {
-                    Touch.on(this.el, event, (this.handler = fn));
+                    
+                    Touch.on(el, event, wrapperFun);
                 }
             },
 
-            unbind: function() {
-                if (this.handler) {
-                    
-                    Touch.off(this.el, this.arg, this.handler);
-                }
-                
+            unbind: function(el, binding, vnode, oldVnode) {
+                var event = binding.arg;
+                var handlerName = binding.expression;// handlerName
+                el._handler = el._handler || {};
+                el._handler[event] = el._handler[event] || [];
+                el._handler[event].forEach(function(evtItem) {
+                  Touch.off(el, event, evtItem.handler);
+                });
             }
-        });        
+        });
     };
-
 
     if (typeof exports == 'object') {
 

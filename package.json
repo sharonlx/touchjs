@@ -13,10 +13,10 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/sharonlx/vue-touch.git"
+    "url": "https://github.com/sharonlx/touchjs.git"
   },
   "bugs": {
-    "url": "https://github.com/sharonlx/vue-touch/issues"
+    "url": "https://github.com/sharonlx/touchjs/issues"
   },
   "devDependencies": {
     "uglify-js": "^2.6.2",
@@ -32,17 +32,16 @@
     "example": "example"
   },
   "peerDependencies": {
-    "vue": "^1.0.16"
-    
+    "vue": "^2.2.1"
   },
-  "dependencies": {
+  "devDependencies": {
     "uglify-js": "^2.7.3",
-    "vue": "^1.0.28",
-    "webpack": "^1.13.2"
+    "vue": "^2.2.1",
+    "webpack": "^2.2.1"
   },
   "keywords": [
-    "vue touch gesture",
-    "vue",
+    "vue2 touch gesture",
+    "vue2",
     "touch"
   ]
 }

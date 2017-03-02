@@ -1,0 +1,67 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/usr/local/bin/node',
+1 verbose cli   '/usr/local/bin/npm',
+1 verbose cli   '--registry=http://registry.npm.corp.qunar.com/',
+1 verbose cli   '--cache=/Users/sharon/.npm/.cache/qnpm',
+1 verbose cli   '--userconfig=/Users/sharon/.qnpmrc',
+1 verbose cli   'install',
+1 verbose cli   'grunt' ]
+2 info using npm@3.8.3
+3 info using node@v5.10.1
+4 silly loadCurrentTree Starting
+5 silly install loadCurrentTree
+6 silly install readLocalPackageData
+7 silly fetchPackageMetaData grunt
+8 silly fetchNamedPackageData grunt
+9 silly mapToRegistry name grunt
+10 silly mapToRegistry using default registry
+11 silly mapToRegistry registry http://registry.npm.corp.qunar.com/
+12 silly mapToRegistry data Result {
+12 silly mapToRegistry   raw: 'grunt',
+12 silly mapToRegistry   scope: null,
+12 silly mapToRegistry   name: 'grunt',
+12 silly mapToRegistry   rawSpec: '',
+12 silly mapToRegistry   spec: 'latest',
+12 silly mapToRegistry   type: 'tag' }
+13 silly mapToRegistry uri http://registry.npm.corp.qunar.com/grunt
+14 verbose request uri http://registry.npm.corp.qunar.com/grunt
+15 verbose request no auth needed
+16 info attempt registry request try #1 at 18:50:37
+17 verbose request id 782fa5f84b1fca42
+18 verbose etag W/"21281-W2cQobPiRhhwIoGNkNpwOw"
+19 http request GET http://registry.npm.corp.qunar.com/grunt
+20 http 304 http://registry.npm.corp.qunar.com/grunt
+21 verbose headers { date: 'Wed, 01 Mar 2017 10:50:37 GMT',
+21 verbose headers   connection: 'keep-alive',
+21 verbose headers   etag: '"21281-W2cQobPiRhhwIoGNkNpwOw"',
+21 verbose headers   'x-readtime': '22',
+21 verbose headers   server: 'QWS/1.0' }
+22 silly get cb [ 304,
+22 silly get   { date: 'Wed, 01 Mar 2017 10:50:37 GMT',
+22 silly get     connection: 'keep-alive',
+22 silly get     etag: '"21281-W2cQobPiRhhwIoGNkNpwOw"',
+22 silly get     'x-readtime': '22',
+22 silly get     server: 'QWS/1.0' } ]
+23 verbose etag http://registry.npm.corp.qunar.com/grunt from cache
+24 verbose get saving grunt to /Users/sharon/.npm/.cache/qnpm/registry.npm.corp.qunar.com/grunt/.cache.json
+25 verbose correctMkdir /Users/sharon/.npm/.cache/qnpm correctMkdir not in flight; initializing
+26 verbose stack TypeError: Invalid Version: 0.4.0rc8
+26 verbose stack     at new SemVer (/usr/local/lib/node_modules/npm/node_modules/semver/semver.js:293:11)
+26 verbose stack     at SemVer.compare (/usr/local/lib/node_modules/npm/node_modules/semver/semver.js:342:13)
+26 verbose stack     at compare (/usr/local/lib/node_modules/npm/node_modules/semver/semver.js:566:31)
+26 verbose stack     at rcompare (/usr/local/lib/node_modules/npm/node_modules/semver/semver.js:576:10)
+26 verbose stack     at Array.sort (native)
+26 verbose stack     at pickVersionFromRegistryDocument (/usr/local/lib/node_modules/npm/lib/fetch-package-metadata.js:121:48)
+26 verbose stack     at /usr/local/lib/node_modules/npm/node_modules/iferr/index.js:13:50
+26 verbose stack     at /usr/local/lib/node_modules/npm/lib/utils/pulse-till-done.js:19:8
+26 verbose stack     at saved (/usr/local/lib/node_modules/npm/lib/cache/caching-client.js:168:7)
+26 verbose stack     at /usr/local/lib/node_modules/npm/node_modules/graceful-fs/polyfills.js:210:7
+27 verbose cwd /Users/sharon/Work/workspace/vue/vue-touch-sharon
+28 error Darwin 16.4.0
+29 error argv "/usr/local/bin/node" "/usr/local/bin/npm" "--registry=http://registry.npm.corp.qunar.com/" "--cache=/Users/sharon/.npm/.cache/qnpm" "--userconfig=/Users/sharon/.qnpmrc" "install" "grunt"
+30 error node v5.10.1
+31 error npm  v3.8.3
+32 error Invalid Version: 0.4.0rc8
+33 error If you need help, you may report this error at:
+33 error     <https://github.com/npm/npm/issues>
+34 verbose exit [ 1, true ]
