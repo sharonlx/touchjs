@@ -1,6 +1,6 @@
 {
   "name": "vue-touchjs",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "main": "src/index.js",
   "author": "ixuan.lee@gmail.com",
   "files": [
@@ -27,7 +27,7 @@
     "build": "webpack src/index.js dist/index.js",
     "dev": "webpack --watch example/example.js example/example.build.js"
   },
-  "homepage": "https://github.com/sharonlx/vue-touch#readme",
+  "homepage": "https://github.com/sharonlx/touchjs#readme",
   "directories": {
     "example": "example"
   },
