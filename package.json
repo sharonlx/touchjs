@@ -1,6 +1,6 @@
 {
   "name": "vue-touchjs",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "main": "src/index.js",
   "author": "ixuan.lee@gmail.com",
   "files": [
@@ -9,7 +9,7 @@
     "lib",
     "example"
   ],
-  "description": "Touch.js based touch events plugin for Vue.js",
+  "description": "Touch.js based touch events plugin for Vue2.0",
   "license": "MIT",
   "repository": {
     "type": "git",
