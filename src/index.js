@@ -77,7 +77,9 @@
                 // console.log(fn.toString())
                 
                 var wrapperFun = function() {
-                  var ret = fn.apply(null, arguments);
+                  var arg = Array.prototype.slice.call(arguments);
+                  arg.unshift(el);
+                  var ret = fn.apply(null, arg);
                   if (modifiers.stop) {
                       return false;
                   }
@@ -93,7 +95,7 @@
                         event + '="' + binding.rawName
                     );
                 } else {
-                    
+
                     Touch.on(el, event, wrapperFun);
                 }
             },

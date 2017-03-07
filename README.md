@@ -109,7 +109,8 @@ new Vue({
         event: ''
     },
     methods: {
-        test: function(e) {
+        test: function(el, e) {
+        // el 表示挂在事件的dom结点, 默认挂在事件的dom是handler的第一个参数，为了不改变
             e.stopPropagation();
             e.preventDefault();
             this.event = e.type;
@@ -118,3 +119,8 @@ new Vue({
     }
 });
 ```
+## history
+
+#### 0.0.9 
+  
+  1. 【add】在事件回调中将事件的挂接节点作为回调的第一个参数返回
