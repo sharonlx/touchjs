@@ -53,8 +53,7 @@ Where tap is the analog click event, pinch simulates the double finger zoom, ror
 
 ## reference code
 
-`` ``
-Html
+```html
 
 <! DOCTYPE html>
 <Html lang = "en">
@@ -94,9 +93,9 @@ Html
   </ Body>
 </ Html>
 
-`` ``
+```
 
-`` `Js
+```js
 Var Vue = require ('vue');
 Var VueTouch = require ('vue-touchjs');
 
@@ -117,7 +116,7 @@ New Vue ({
         }
     }
 });
-`` ``
+```
 ## history
 
 #### 0.0.9
